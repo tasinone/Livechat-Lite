@@ -5,9 +5,23 @@ class LiveChat {
         this.pollInterval = null;
         this.hasNewMessage = false;
         
+        // Determine the correct API path based on how the widget is loaded
+        this.apiPath = this.getApiPath();
+        
         this.initializeElements();
         this.bindEvents();
         this.checkForNewMessages();
+    }
+    
+    getApiPath() {
+        // Check if we're in an iframe (JS embed) or directly included (PHP embed)
+        if (window.self !== window.top) {
+            // We're in an iframe, use relative paths
+            return '';
+        } else {
+            // We're included directly, need to add livechat prefix
+            return '/livechat/';
+        }
     }
     
     initializeElements() {
@@ -60,7 +74,7 @@ class LiveChat {
         }
         
         try {
-            const response = await fetch('api/send_message.php', {
+            const response = await fetch(this.apiPath + 'api/send_message.php', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -93,7 +107,7 @@ class LiveChat {
         if (!message || !this.chatId) return;
         
         try {
-            const response = await fetch('api/send_message.php', {
+            const response = await fetch(this.apiPath + 'api/send_message.php', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -116,7 +130,7 @@ class LiveChat {
         if (!this.chatId) return;
         
         try {
-            const response = await fetch(`api/get_messages.php?chat_id=${this.chatId}&last_id=${this.lastMessageId}`);
+            const response = await fetch(`${this.apiPath}api/get_messages.php?chat_id=${this.chatId}&last_id=${this.lastMessageId}`);
             const data = await response.json();
             
             if (data.messages && data.messages.length > 0) {

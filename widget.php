@@ -7,13 +7,23 @@ $banner_text = Database::getSetting('banner_text', 'We usually respond within 2 
 $icon_position = Database::getSetting('icon_position', 'bottom-right');
 $icon_bg_color = Database::getSetting('icon_bg_color', '#dc3545');
 $icon_svg_color = Database::getSetting('icon_svg_color', '#ffffff');
+
+// Get the base path for assets - this determines the correct path whether included or accessed directly
+$widget_path = '';
+if (basename($_SERVER['PHP_SELF']) !== 'widget.php') {
+    // Widget is being included from another file
+    $widget_path = '/livechat/';
+} else {
+    // Widget is being accessed directly
+    $widget_path = '';
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="<?php echo $widget_path; ?>assets/style.css">
 </head>
 <body>
     <!-- Chat Widget -->
@@ -56,9 +66,9 @@ $icon_svg_color = Database::getSetting('icon_svg_color', '#ffffff');
     </div>
     
     <audio id="notification-sound" preload="auto">
-        <source src="assets/notification.mp3" type="audio/mpeg">
+        <source src="<?php echo $widget_path; ?>assets/notification.mp3" type="audio/mpeg">
     </audio>
     
-    <script src="assets/chat.js"></script>
+    <script src="<?php echo $widget_path; ?>assets/chat.js"></script>
 </body>
 </html>
