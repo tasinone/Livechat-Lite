@@ -1,6 +1,8 @@
 # LiveChat-Lite
 A lightweight, PHP-based live chat system that's simple, powerful, and easy to manage. Fully self-hosted and plug-and-play, no database setup required. Ideal for small businesses.
 
+![Livechat Lite Demo](https://github.com/user-attachments/assets/2fd03e74-b365-4391-a41d-7666c6651d08)
+
 ## Complete File Structure:
 
     livechat/
